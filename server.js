@@ -6,7 +6,7 @@ const port = process.env.PORT || 8000;
 const databaseConnect = require('./apps/config/connect')
 // const token = require('./apps/lib/auth/validateToken');
 
-
+console.log("test");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 // app.use(token.verifyToken);

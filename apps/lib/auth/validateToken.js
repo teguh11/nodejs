@@ -28,7 +28,7 @@ var userAuth = {
 			}
 			else
 			{
-				response.error({message : "Authoization token required"}, res);
+					response.error({message : "Authoization token required"}, res);
 			}
 		}
 		else
