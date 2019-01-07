@@ -1,0 +1,29 @@
+{
+  "name": "simpleapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "consign": "^0.1.6",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.4.0",
+    "md5": "^2.2.1",
+    "module-alias": "^2.1.0",
+    "moment": "^2.23.0",
+    "morgan": "^1.9.1",
+    "mssql": "^4.3.0",
+    "mysql": "^2.16.0",
+    "nodemon": "^1.18.8",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0"
+  }
+}
