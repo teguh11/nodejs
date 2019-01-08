@@ -6,7 +6,7 @@ const port = process.env.PORT || 8000;
 const databaseConnect = require('./apps/config/connect')
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(bodyParser.json()); 
 
 require('./apps/routes')(app, databaseConnect);
 
