@@ -3,7 +3,7 @@ module.exports = {
 		host	: "localhost",
 		user	: "root",
 		password	: "",
-		database	: "stobox"
+		database	: "ma_test"
 	},
 	"jwt" : {
 		"secret_key" : "veryyyysecret"

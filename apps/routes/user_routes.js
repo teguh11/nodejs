@@ -15,5 +15,7 @@ module.exports = function(app, connect) {
 
 	app.put('/user/update/:id', userModel.update)
 			.delete('/user/delete/:id', userModel.delete)
-			.get('/user/:id', token.verifyToken, userModel.detail)
+			.get('/user/:id', userModel.detail)
+			.get('/fetch', userModel.randomfox)
+
 }

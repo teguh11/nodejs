@@ -38,6 +38,19 @@ module.exports = {
 	},
 
 	hardDelete : function (table, conditions) {
-		
+		var where = [];
+		var columnValue = [];
+
+		if(typeof conditions == 'object')
+		{
+			for(var [key, value] of Object.entries(conditions))
+			{
+				where.push(key+"=?");
+				columnValue.push(value);
+			}
+		}
+
+		var sql = "DELETE FROM "+table+" where "+where.join(" and ");
+		return [sql, columnValue]; 
 	}
 }
