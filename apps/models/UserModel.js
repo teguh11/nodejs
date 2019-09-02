@@ -1,25 +1,15 @@
 'use strict';
 
-var response 			= require('./../lib/response');
-var validateInput = require('./../lib/validateInput');
-var queryBuilders = require('./../lib/queryBuilders');
-var config				= require('./../config/config');
 var conn 					= require('./../config/connect');
-var jwt						= require('jsonwebtoken');
+var response 			= require('./../lib/response');
 var md5						= require('md5');
-var moment 				= require('moment');
-var verifyToken		= require('./../lib/auth/validateToken');
-var axios					= require('axios');
-var adapter 			= require('axios/lib/adapters/http');
-var fs 						= require('fs');
-var path  				= require('path');
+const { validationResult } = require('express-validator');
+
 
 module.exports = {
-	errorMessages : [], 
 	detail	: function(req, res) {
-		var id = userInfo.id;
-		
-		conn.query("select * from user where id=?", [id],(err, results, fields) => {
+		var id = req.params.id;
+		conn.query("select * from users where id=?", [id],(err, results, fields) => {
 			if(err) console.log("Errors : " + err.sqlMessage);
 			response.ok(results, res);
 		})
@@ -33,69 +23,23 @@ module.exports = {
 	},
 
 	create	: function(req, res) {
-		var errorMessages = [];
-		if(!validateInput.email(req.body.email))
-		{
-				errorMessages.push("Email not valid");
-		}
+		const error = validationResult(req)
 
-		if(!validateInput.integerOnly(req.body.phone_number))
-		{
-				errorMessages.push("Phone not valid");
-		}
- 
-		if(!validateInput.stringOnly(req.body.name))
-		{
-				errorMessages.push("Name only string");
-		}
-
-		if(errorMessages.length > 0)
-		{
-			response.error(errorMessages, res);
-			return false;
+		if(!error.isEmpty()){
+			response.error(error.array(), res)
+			return
 		}
 
 		var data = {
-							name	: req.body.name, 
-							email	: req.body.email,
-							phone_number : req.body.phone_number
-						};
+			name			: req.body.name, 
+			email			: req.body.email,
+			password 	: md5(req.body.password)
+		};
 
 		conn.query("insert into users set ?", data, function (err, results, fields) {
-			// var token = jwt.sign({id : results.insertId}, config.jwt.secret_key, {expiresIn : 86400});
 			var resQuery = {insertId: results.insertId};
 			response.ok(resQuery, res)
 		})
 	},
 
-	update : function (req, res) {
-		var conditions = {"id" : req.params.id};
-		var [sql, value] = queryBuilders.update('users', req.body, conditions);
-		conn.query(sql, value, function(err, results, fields) {
-			if(err) console.log(err);
-			response.ok(results,res);
-		})
-	},
-
-	delete : function(req, res) {
-		var conditions = {"id" : req.params.id};
-		var [sql, value] = queryBuilders.hardDelete('users', conditions);
-
-		conn.query(sql, value, function(err, results, fields) {
-			response.ok(results, res);
-		})
-	},
-
-	randomfox : async function(req, res) {
-		var floof = await axios.get('https://randomfox.ca/floof/');
-		var getImage = await axios({
-	  			method:'get',
-	  			url:floof.data.image,
-	  			responseType:'stream'
-				});
-		const pathImage 	= path.resolve(__dirname, '../images', Date.now()+'.jpg');
-		getImage.data.pipe(fs.createWriteStream(pathImage)).on('finish', function () {
-			response.ok(["image save"], res);
-		});
-  },
 }

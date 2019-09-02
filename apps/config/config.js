@@ -2,8 +2,8 @@ module.exports = {
 	"database" : {
 		host	: "localhost",
 		user	: "root",
-		password	: "",
-		database	: "ma_test"
+		password	: "123456",
+		database	: "antriin_dong"
 	},
 	"jwt" : {
 		"secret_key" : "veryyyysecret"

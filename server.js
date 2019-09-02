@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+// const expressValidator = require('express-validator')
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -7,6 +8,7 @@ const databaseConnect = require('./apps/config/connect')
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json()); 
+// app.use(expressValidator())
 
 require('./apps/routes')(app, databaseConnect);
 
