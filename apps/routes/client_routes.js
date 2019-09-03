@@ -12,6 +12,4 @@ module.exports = function(app, connect) {
 	app.post('/client/create', clientMiddleware.validate("create-client"), (req, res) => {
 		clientModel.create(req, res);
 	})
-
-
 }

@@ -11,7 +11,6 @@ exports.validate = (method) => {
 					check("max_queue")
 						.exists().withMessage("Antrian maksimal diperlukan!")
 				];
-    
 		default:
     	break;
     }

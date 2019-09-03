@@ -2,6 +2,7 @@
 
 var conn 					= require('./../config/connect');
 var response 			= require('./../lib/response');
+const queryBuilder = require('./../lib/queryBuilders');
 var md5						= require('md5');
 const { validationResult } = require('express-validator');
 
@@ -10,14 +11,20 @@ module.exports = {
 	detail	: function(req, res) {
 		var id = req.params.id;
 		conn.query("select * from users where id=?", [id],(err, results, fields) => {
-			if(err) console.log("Errors : " + err.sqlMessage);
+			if(err) response.error("Errors : " + err.sqlMessage, res);
 			response.ok(results, res);
 		})
 	},
 
 	lists 	: function(req, res) {
-		conn.query("select * from users", (err, results, fields) => {
-			if(err) console.log("Errors : " + err.sqlMessage);
+		var conditions = queryBuilder.conditions()
+		var where = "";
+		if(conditions[1].length > 0){
+			where = "WHERE "+conditions[0];
+		}
+
+		conn.query("select * from users "+where, conditions[1], (err, results, fields) => {
+			if(err) response.error("Errors : " + err.sqlMessage, res);
 			response.ok(results, res);
 		})
 	},

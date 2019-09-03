@@ -1,7 +1,9 @@
 'use strict';
 
-var conn 					= require('./../config/connect');
-var response 			= require('./../lib/response');
+var conn 					  = require('./../config/connect');
+var response 			  = require('./../lib/response');
+const queryBuilder  = require('./../lib/queryBuilders');
+
 const { validationResult } = require('express-validator');
 
 
@@ -15,7 +17,13 @@ module.exports = {
 	},
 
 	lists 	: function(req, res) {
-		conn.query("select * from client", (err, results, fields) => {
+    var conditions = queryBuilder.conditions()
+		var where = "";
+		if(conditions[1].length > 0){
+			where = "WHERE "+conditions[0];
+		}
+
+		conn.query("select * from client "+where, conditions[1], (err, results, fields) => {
 			if(err) console.log("Errors : " + err.sqlMessage);
 			response.ok(results, res);
 		})

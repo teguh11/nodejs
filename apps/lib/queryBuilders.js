@@ -1,4 +1,17 @@
 module.exports = {
+	conditions : function(conditions){
+		var column = [];
+		var columnValue = [];
+
+		if(typeof conditions == "object"){
+			for(var [key, value] of Object.entries(conditions)){
+				column.push(key+"=?");
+				columnValue.push(value);
+			}
+		}
+		return [column.join(" AND "), columnValue];
+	},
+
 	insert : function(table, datas) {
 		
 	},
